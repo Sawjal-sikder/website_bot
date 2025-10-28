@@ -6,6 +6,8 @@ import BanarImage from '../assets/image/bgf.png'
 import Logo from '../assets/image/logo.png'
 import MainImage from '../assets/image/mainbody.png'
 import Chaticon from '../assets/image/chaticon.png'
+import Footer from './footer.jsx'
+
 
 const home = () => {
 
@@ -37,22 +39,26 @@ const home = () => {
       {/* productimage */}
         <Products heading="Best Selling Products" />
         <Products heading="Regular Products" />
+        <div className="pt-24">
+          <Footer />
+        </div>
       
       {!isChatOpen && <div className="h-16 sm:h-8 fixed bottom-20 right-20 cursor-pointer"
         onClick={() => setIsChatOpen(!isChatOpen)}
       >
-        <div className="flex gap-6 items-center justify-center space-y-2 bg-[#2F64EF] px-8 py-2 rounded-full shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <div className="flex items-center gap-4 bg-[#2F64EF] px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-shadow duration-300">
         
         <img 
           src={Chaticon} 
           alt="Chat Icon" 
-          className=" w-12 h-10 sm:w-10 sm:h-10 "
+          className="w-8 h-8 sm:w-6 sm:h-6"
         />
-          <p className="text-xl text-white font-semibold">AI Shopping Helper</p>
+          <p className="text-lg text-white font-semibold">AI Shopping Helper</p>
       </div>
       </div>}
 
       {isChatOpen && <Chat onClose={() => setIsChatOpen(false)} />}
+
     </div>
   )
 }
