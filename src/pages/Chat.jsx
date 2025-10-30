@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Icon from '../assets/image/iconchat.png'
 import botIcon from '../assets/image/cart.png'
 import Send from '../assets/image/send.png'
@@ -55,44 +55,52 @@ const Chat = ({ onClose }) => {
     }
   }
 
+  // Prevent body scroll on mobile when chat is open
+  useEffect(() => {
+    document.body.classList.add('chat-open')
+    return () => {
+      document.body.classList.remove('chat-open')
+    }
+  }, [])
+
   return (
     <>
       {/* Overlay */}
       <div 
-        className="fixed inset-0 bg-black bg-opacity-50 z-40"
+        className="fixed inset-0 bg-black bg-opacity-50 z-40 sm:block"
         onClick={onClose}
       ></div>
       
       {/* Chat Modal */}
-      <div className="fixed bottom-10 right-10 h-[700px] w-full sm:w-96 bg-white shadow-2xl z-50 flex flex-col rounded-xl">
+      <div className="fixed bottom-0 right-0 sm:bottom-10 sm:right-10 chat-modal h-full sm:h-[700px] w-full sm:w-96 max-w-full bg-white shadow-2xl z-50 flex flex-col rounded-none sm:rounded-xl safe-area-inset-bottom">
         {/* Header */}
-        <div className="bg-[#2F64EF] text-white p-4 flex items-center justify-between rounded-t-xl">
+        <div className="bg-[#2F64EF] text-white p-3 sm:p-4 flex items-center justify-between rounded-none sm:rounded-t-xl">
           <div className="flex items-center">
-            <img src={Icon} alt="Chat Icon" className="w-10 h-10 mr-2" />
+            <img src={Icon} alt="Chat Icon" className="w-8 h-8 sm:w-10 sm:h-10 mr-2" />
             <div>
-              <h3 className="text-lg font-semibold">Chat with Pluto</h3>
+              <h3 className="text-base sm:text-lg font-semibold">Chat with Pluto</h3>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-[#04FF00] rounded-full"></div>
-                <p className="text-sm">Online</p>
+                <p className="text-xs sm:text-sm">Online</p>
               </div>
             </div>
           </div>
           <button 
             onClick={onClose}
-            className="text-white hover:text-gray-200 text-4xl  ml-4"
+            className="text-white hover:text-gray-200 text-3xl sm:text-4xl ml-2 sm:ml-4"
           >
             ×
           </button>
         </div>
 
         {/* Messages Container */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">
           {/* default message */} 
           <div className="flex justify-center">
-            <div className=" p-2 text-center">
-              <h2 className="font-bold text-2xl">Welcome to Kasa Belle Isle</h2>
-              <p className="px-10 py-3">Local essentials and snacks, ready for pickup or delivery!</p>
-              <button className="bg-[#2F64EF] text-white px-4 py-2 my-6 rounded-lg hover:bg-blue-600 transition-colors">Chat to Order</button>
+            <div className="p-2 text-center max-w-xs sm:max-w-none">
+              <h2 className="font-bold text-xl sm:text-2xl mb-2">Welcome to Kasa Belle Isle</h2>
+              <p className="px-4 sm:px-10 py-2 sm:py-3 text-sm sm:text-base">Local essentials and snacks, ready for pickup or delivery!</p>
+              <button className="bg-[#2F64EF] text-white px-4 py-2 my-4 sm:my-6 rounded-lg hover:bg-blue-600 transition-colors text-sm sm:text-base">Chat to Order</button>
             </div>
           </div>
           {messages.map((msg) => (
@@ -104,11 +112,11 @@ const Chat = ({ onClose }) => {
                 <img 
                   src={botIcon} 
                   alt="Bot" 
-                  className="w-8 h-8 rounded-full mr-2 mt-1 flex-shrink-0" 
+                  className="w-6 h-6 sm:w-8 sm:h-8 rounded-full mr-2 mt-1 flex-shrink-0" 
                 />
               )}
               <div
-                className={`max-w-xs px-4 py-2 rounded-lg ${
+                className={`max-w-[280px] sm:max-w-xs px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base ${
                   msg.sender === 'user'
                     ? 'bg-[#2F64EF] text-white'
                     : 'bg-gray-200 text-gray-800'
@@ -121,7 +129,7 @@ const Chat = ({ onClose }) => {
         </div>
 
         {/* Input Area */}
-        <div className="p-4">
+        <div className="p-3 sm:p-4 border-t border-gray-100 bg-white">
           <div className="relative w-full">
             <input
               type="text"
@@ -129,13 +137,14 @@ const Chat = ({ onClose }) => {
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Type a message"
-              className="w-full shadow-md rounded-lg px-3 py-3 pr-12 focus:outline-none focus:ring-none focus:border-none"
+              className="w-full shadow-md rounded-lg px-3 py-3 pr-12 focus:outline-none focus:ring-none focus:border-none text-sm sm:text-base min-h-[44px]"
+              style={{ fontSize: '16px' }} // Prevent zoom on iOS
             />
             <button
               onClick={handleSendMessage}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2  p-2 rounded-lg"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-lg hover:bg-gray-100 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
             >
-              <img src={Send} alt="Send" className="w-4 h-4" />
+              <img src={Send} alt="Send" className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
         </div>
