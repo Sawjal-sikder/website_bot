@@ -1,8 +1,11 @@
 import React from 'react'
 import { useState } from 'react'
 import Products from './Products'
+import BestSale from './BestSale'
+import FAQ from './Faq'
+import CONTACT from './contact'
 import Chat from './Chat'
-import BanarImage from '../assets/image/bgf.png'
+import BanarImage from '../assets/image/bg.png'
 import Logo from '../assets/image/logo.png'
 import MainImage from '../assets/image/mainbody.png'
 import Chaticon from '../assets/image/chaticon.png'
@@ -30,15 +33,16 @@ const home = () => {
         <div className="absolute -bottom-3 md:bottom-0 left-1/2 transform -translate-x-1/2 z-10 mb-4"
         onClick={() => setIsChatOpen(!isChatOpen)}
         >
-          <button className="bg-blue-500 text-xs text-white px-2 py-1 md:px-8 md:py-2 rounded-full shadow-md hover:bg-blue-600 transition duration-200 md:font-bold">
-            Get Started
+          <button className="bg-blue-500 text-xs md:text-lg text-white px-2 py-1 md:px-8 md:py-2 rounded-md shadow-md hover:bg-blue-600 transition duration-200 md:font-bold">
+            START SHOPPING
           </button>
         </div>
       </div>
       
       {/* productimage */}
-        <Products heading="Best Selling Products" />
-        <Products heading="Regular Products" />
+        <Products heading="Best offers" details="Grab them before they’re gone!" />
+        <BestSale heading="Best sellers" details="Discover what everyone’s buying right now." />
+
         <div className="pt-24">
           <Footer />
         </div>
@@ -53,7 +57,7 @@ const home = () => {
           alt="Chat Icon" 
           className="w-4 h-4 sm:w-6 sm:h-6"
         />
-          <p className="md:text-lg text-xs text-white font-semibold">AI Shopping Helper</p>
+          <p className="md:text-lg text-xs text-white font-semibold">Order Now</p>
       </div>
       </div>}
 

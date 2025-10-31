@@ -1,12 +1,19 @@
 import React from 'react'
-import Image from '../assets/image/product.png'
+import Image1 from '../assets/image/saler/s1.png'
+import Image2 from '../assets/image/saler/s2.png'
+import Image3 from '../assets/image/saler/s3.png'
+import Image4 from '../assets/image/saler/s4.png'
+import Image5 from '../assets/image/saler/s5.png'
+import Image6 from '../assets/image/saler/s6.png'
 
-const Products = ({heading, details}) => {
-  const products = Array.from({ length: 10 }, (_, index) => ({
-    id: index + 1,
-    image: Image,
-    title: `Product ${index + 1}`,
-  }));
+const BestSale = ({heading, details}) => {
+const products = [
+    { id: 1, image: Image1, title: 'Saler 1' },
+    { id: 2, image: Image2, title: 'Saler 2' },
+    { id: 3, image: Image3, title: 'Saler 3' },
+    { id: 4, image: Image4, title: 'Saler 4' },
+    { id: 5, image: Image5, title: 'Saler 5' },
+];
 
   return (
     <div className="pt-24 bg-gray-50">
@@ -44,4 +51,4 @@ const Products = ({heading, details}) => {
   )
 }
 
-export default Products
+export default BestSale
