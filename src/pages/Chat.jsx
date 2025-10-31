@@ -6,7 +6,7 @@ import Send from '../assets/image/send.png'
 const Chat = ({ onClose }) => {
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([
-    { id: 1, text: "👋 Hi there! Welcome to CASA by Pluto — your friendly online convenience store. What would you like to order today?", sender: 'bot' },
+    { id: 1, text: "👋 Hi there! Welcome to KASA by Pluto — your friendly online convenience store. What would you like to order today?", sender: 'bot' },
     { id: 2, text: "Yes, I'd like to order 4 bananas.", sender: 'user' },
     { id: 3, text: "Sorry, sir. Unfortunately, bananas are not available right now. Would you like to order something else?", sender: 'bot' },
     { id: 4, text: "Milk?", sender: 'user' },
@@ -78,7 +78,7 @@ const Chat = ({ onClose }) => {
           <div className="flex items-center">
             <img src={Icon} alt="Chat Icon" className="w-8 h-8 sm:w-10 sm:h-10 mr-2" />
             <div>
-              <h3 className="text-base sm:text-lg font-semibold">Chat with Pluto</h3>
+              <h3 className="text-base sm:text-lg font-semibold">Order with Pluto</h3>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-[#04FF00] rounded-full"></div>
                 <p className="text-xs sm:text-sm">Online</p>

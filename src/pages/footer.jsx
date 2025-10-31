@@ -56,7 +56,7 @@ const footer = () => {
             <div className="flex justify-center md:justify-end items-start pt-3">
               <div className="flex flex-col items-center gap-4">
                 <h3 className="text-md font-semibold text-gray-300 mb-2">Follow us on social media:</h3>
-                <div className="flex  gap-4 pb-10">
+                <div className="flex  gap-4 ">
                   <img src={Facebook} alt="Facebook" className="w-12 h-12 hover:opacity-75 cursor-pointer transition duration-300" />
                   <img src={Twitter} alt="Twitter" className="w-12 h-12 hover:opacity-75 cursor-pointer transition duration-300" />
                   <img src={Youtube} alt="YouTube" className="w-12 h-12 hover:opacity-75 cursor-pointer transition duration-300" />
@@ -68,7 +68,7 @@ const footer = () => {
         </div>
         
         {/* Footer bottom section */}
-        <div className="container mx-auto px-4  border-t border-gray-700 pt-6">
+        <div className="container mx-auto px-4  border-t border-gray-700 pt-6 mt-6">
           <div className="">
             <p className="text-sm md:text-base text-gray-300">
               © 2023 Your Company. All rights reserved.
