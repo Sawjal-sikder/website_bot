@@ -8,11 +8,13 @@ import Logo from '../assets/image/logo.png'
 import MainImage from '../assets/image/mainbody.png'
 import Chaticon from '../assets/image/chaticon.png'
 import Footer from './footer.jsx'
+import Poster from './Poster.jsx'
 
 
 const home = () => {
 
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isPosterOpen, setIsPosterOpen] = useState(true);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -60,6 +62,7 @@ const home = () => {
       </div>}
 
       {isChatOpen && <Chat onClose={() => setIsChatOpen(false)} />}
+      {isPosterOpen && <Poster />}
 
     </div>
   )
