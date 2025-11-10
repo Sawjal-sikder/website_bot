@@ -49,7 +49,7 @@ const Service = () => {
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">Support</h1>
         </div>
 
-      <CONTACT heading="How can we help you?" />
+      <CONTACT heading="HOW TO ORDER WITH AI CHAT (PLUTO)" />
       <FAQ heading="Frequently Asked Questions" />
       <div className="pt-24">
         <Footer />

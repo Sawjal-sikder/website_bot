@@ -6,9 +6,12 @@ import Icon3 from '../assets/image/icon/c3.png'
 
 const contact = ({heading, details=""}) => {
     const Datas = [
-    { id: 1, icon: Icon1, title: 'Browsing the Website', description: 'Learn how to navigate our site' },
-    { id: 2, icon: Icon2, title: 'Placing an Order', description: 'Learn how to place an order on our site' },
-    { id: 3, icon: Icon3, title: 'Shipping & Delivery', description: 'Learn about our shipping and delivery options' },
+    { id: 1, icon: Icon1, title: 'OPEN CHAT', description: 'Tap "Chat With Pluto" on the homepage.' },
+    { id: 2, icon: Icon2, title: 'TELL PLUTO WHAT YOU NEED', description: 'Type or say your order - "2 bottles of milk and a loaf of bread."' },
+    { id: 3, icon: Icon3, title: 'CONFIRM YOUR BASKET', description: 'Pluto will show your items - check the list and confirm.' },
+    { id: 4, icon: Icon3, title: 'MAKE PAYMENT', description: 'Choose Pay Online or Pay in Store.' },
+    { id: 5, icon: Icon3, title: 'CHOOOSE DELIVERY OR COLLECTION', description: 'Pick Delivery (to your address) or Click & COllect from Kasa Belle Isle.' },
+    { id: 6, icon: Icon3, title: 'TRACK YOUR ORDER', description: 'Pluto will update you when your order is Preparing, Out for Delivery or Ready.' },
     ];
 
   return (
