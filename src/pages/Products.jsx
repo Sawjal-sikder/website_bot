@@ -6,7 +6,7 @@ import { API_BASE_URL } from '../services/auth'
 const Products = ({heading, details}) => {
   const { data, loading, error, refetch} = useFetchData('/api/shop/best-seles/')
 
-  const dummyProducts = Array.from({ length: 10 }, (_, index) => ({
+  const dummyProducts = Array.from({ length: 5 }, (_, index) => ({
     product__id: index + 1,
     product__image: Image,
     product__name: `Product ${index + 1}`,
@@ -34,7 +34,11 @@ const Products = ({heading, details}) => {
             <div key={product.product__id} className="group">
               <div className="aspect-square bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group-hover:scale-105">
                 <img 
-                  src={API_BASE_URL + "/" + 'media' +  "/" + product.product__image} 
+                  src={
+                        data?.data?.length && product.product__image
+                        ? `${API_BASE_URL}/media/${product.product__image}`
+                                          : product.product__image
+                                      }
                   alt={`Product ${product.product__id}`}
                   className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-300 cursor-pointer"
                 />

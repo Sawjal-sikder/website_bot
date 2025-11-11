@@ -6,14 +6,22 @@ import Image4 from '../assets/image/saler/s4.png'
 import Image5 from '../assets/image/saler/s5.png'
 import Image6 from '../assets/image/saler/s6.png'
 
+import { API_BASE_URL } from '../services/auth'
+import useFetchData from '../hooks/useFetchData'
+
 const BestSale = ({heading, details}) => {
-const products = [
-    { id: 1, image: Image1, title: 'Saler 1' },
-    { id: 2, image: Image2, title: 'Saler 2' },
-    { id: 3, image: Image3, title: 'Saler 3' },
-    { id: 4, image: Image4, title: 'Saler 4' },
-    { id: 5, image: Image5, title: 'Saler 5' },
+
+const { data, loading, error, refetch} = useFetchData('/api/shop/best-sellers/')
+
+const dummyproducts = [
+    { product__seller__id: 1, product__seller__image: Image1, product__seller__title: 'Saler 1' },
+    { product__seller__id: 2, product__seller__image: Image2, product__seller__title: 'Saler 2' },
+    { product__seller__id: 3, product__seller__image: Image3, product__seller__title: 'Saler 3' },
+    { product__seller__id: 4, product__seller__image: Image4, product__seller__title: 'Saler 4' },
+    { product__seller__id: 5, product__seller__image: Image5, product__seller__title: 'Saler 5' },
 ];
+
+ const products = data?.data?.length ? data.data : dummyproducts;
 
   return (
     <div className="pt-24 bg-gray-50">
@@ -29,16 +37,20 @@ const products = [
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4 lg:gap-6 xl:gap-8">
           {products.map((product) => (
-            <div key={product.id} className="group">
+            <div key={product.product__seller__id} className="group">
               <div className="aspect-square bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group-hover:scale-105">
                 <img 
-                  src={product.image} 
-                  alt={`Product ${product.id}`}
+                    src={
+                      data?.data?.length && product.product__seller__image
+                        ? `${API_BASE_URL}/media/${product.product__seller__image}`
+                        : product.product__seller__image
+                    }
+                  alt={`Product ${product.product__seller__id}`}
                   className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-300 cursor-pointer"
                 />
               </div>
               <div className="mt-1 sm:mt-2">
-                <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800 text-center">{product.title}</h3>
+                <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800 text-center">{product.product__seller__title}</h3>
               </div>
             </div>
           ))}
