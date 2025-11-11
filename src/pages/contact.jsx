@@ -1,7 +1,10 @@
 import React, {useState} from 'react'
-import Icon1 from '../assets/image/icon/c1.png'
+import Icon1 from '../assets/image/icon/chat.png'
 import Icon2 from '../assets/image/icon/c2.png'
-import Icon3 from '../assets/image/icon/c3.png'
+import Icon3 from '../assets/image/icon/c1.png'
+import Icon4 from '../assets/image/icon/payment.png'
+import Icon5 from '../assets/image/icon/c3.png'
+import Icon6 from '../assets/image/icon/address.png'
 
 
 const contact = ({heading, details=""}) => {
@@ -9,9 +12,9 @@ const contact = ({heading, details=""}) => {
     { id: 1, icon: Icon1, title: 'OPEN CHAT', description: 'Tap "Chat With Pluto" on the homepage.' },
     { id: 2, icon: Icon2, title: 'TELL PLUTO WHAT YOU NEED', description: 'Type or say your order - "2 bottles of milk and a loaf of bread."' },
     { id: 3, icon: Icon3, title: 'CONFIRM YOUR BASKET', description: 'Pluto will show your items - check the list and confirm.' },
-    { id: 4, icon: Icon3, title: 'MAKE PAYMENT', description: 'Choose Pay Online or Pay in Store.' },
-    { id: 5, icon: Icon3, title: 'CHOOOSE DELIVERY OR COLLECTION', description: 'Pick Delivery (to your address) or Click & COllect from Kasa Belle Isle.' },
-    { id: 6, icon: Icon3, title: 'TRACK YOUR ORDER', description: 'Pluto will update you when your order is Preparing, Out for Delivery or Ready.' },
+    { id: 4, icon: Icon4, title: 'MAKE PAYMENT', description: 'Make Payment Online.' },
+    { id: 5, icon: Icon5, title: 'CHOOSE DELIVERY', description: 'Pick Delivery to your address' },
+    { id: 6, icon: Icon6, title: 'TRACK YOUR ORDER', description: 'Pluto will update you when your order is Preparing, Out for Delivery or Ready.' },
     ];
 
   return (
