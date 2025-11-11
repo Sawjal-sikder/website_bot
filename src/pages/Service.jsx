@@ -17,10 +17,10 @@ const Service = () => {
     <div className="relative">
         
       {/* Home Redirect Arrow Icon */}
-      <div className="hidden md:block w-60 h-40 absolute top-10 right-1/3 z-0">
+      <div className="hidden 2xl:block w-60 h-40 absolute top-10 right-1/3 z-0">
         <img src={robotImage} alt="" />
       </div>
-      <div className="hidden md:block w-32 h-32 absolute top-10 right-10 z-0">
+      <div className="hidden 2xl:block w-32 h-32 absolute top-10 right-10 z-0">
         <img src={LightImage} alt="" />
       </div>
       <div className="fixed md:top-6 md:left-6 right-6 top-6 z-50">
