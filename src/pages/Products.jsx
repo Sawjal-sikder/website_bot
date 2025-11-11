@@ -1,12 +1,21 @@
 import React from 'react'
 import Image from '../assets/image/product.png'
+import useFetchData from '../hooks/useFetchData'
+import { API_BASE_URL } from '../services/auth'
 
 const Products = ({heading, details}) => {
-  const products = Array.from({ length: 10 }, (_, index) => ({
-    id: index + 1,
-    image: Image,
-    title: `Product ${index + 1}`,
-  }));
+  const { data, loading, error, refetch} = useFetchData('/api/shop/best-seles/')
+
+  const dummyProducts = Array.from({ length: 10 }, (_, index) => ({
+    product__id: index + 1,
+    product__image: Image,
+    product__name: `Product ${index + 1}`,
+  }))
+
+
+  const products = data?.data?.length ? data.data : dummyProducts;
+
+
 
   return (
     <div className="pt-24 bg-gray-50">
@@ -22,16 +31,16 @@ const Products = ({heading, details}) => {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4 lg:gap-6 xl:gap-8">
           {products.map((product) => (
-            <div key={product.id} className="group">
+            <div key={product.product__id} className="group">
               <div className="aspect-square bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group-hover:scale-105">
                 <img 
-                  src={product.image} 
-                  alt={`Product ${product.id}`}
+                  src={API_BASE_URL + "/" + 'media' +  "/" + product.product__image} 
+                  alt={`Product ${product.product__id}`}
                   className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-300 cursor-pointer"
                 />
               </div>
               <div className="mt-1 sm:mt-2">
-                <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800 text-center">{product.title}</h3>
+                <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800 text-center">{product.product__name}</h3>
               </div>
             </div>
           ))}

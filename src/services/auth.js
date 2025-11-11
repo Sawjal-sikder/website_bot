@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // export const API_BASE_URL = 'https://chart.dsrt321.online/api';
-export const API_BASE_URL = 'http://10.10.7.76:14005/api';
-export const PIC_BASE_URL = 'http://10.10.7.76:14005';
+// export const API_BASE_URL = 'http://10.10.7.76:14005/api';
+export const API_BASE_URL = 'http://10.10.7.76:14009';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -36,16 +36,16 @@ api.interceptors.response.use(
 export const authService = {
   login: async (credentials) => {
     try {
-      
+
       const response = await api.post('/auth/login/', credentials);
-      
+
       const { access, refresh } = response.data;
-      
+
       if (access) {
         // Store the access token as the main auth token
         localStorage.setItem('authToken', access);
         localStorage.setItem('refreshToken', refresh);
-        
+
         // Create a basic user object (you might want to decode the JWT to get user info)
         const userInfo = {
           id: '1', // This should be extracted from the JWT token
@@ -54,7 +54,7 @@ export const authService = {
         };
         localStorage.setItem('user', JSON.stringify(userInfo));
       }
-      
+
       return {
         token: access,
         user: JSON.parse(localStorage.getItem('user')),
@@ -65,13 +65,13 @@ export const authService = {
       console.error('Login error:', error);
       console.error('Error response:', error.response?.data);
       console.error('Error status:', error.response?.status);
-      
+
       // Return more detailed error information
-      const errorMessage = error.response?.data?.message || 
-                          error.response?.data?.error || 
-                          error.message || 
-                          'Login failed';
-      
+      const errorMessage = error.response?.data?.message ||
+        error.response?.data?.error ||
+        error.message ||
+        'Login failed';
+
       throw { message: errorMessage, status: error.response?.status };
     }
   },
