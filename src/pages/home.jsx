@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState , useEffect} from 'react'
 import Products from './Products'
 import BestSale from './BestSale'
 import Chat from './Chat'
@@ -9,12 +9,24 @@ import MainImage from '../assets/image/mainbody.png'
 import Chaticon from '../assets/image/chaticon.png'
 import Footer from './footer.jsx'
 import Poster from './Poster.jsx'
+import useFetchWithoutAuth from '../hooks/useFetchWithoutAuth.jsx'
 
 
 const home = () => {
+  const { data, loading, error } = useFetchWithoutAuth('/api/auth/site/status/');
+  // console.log("Fetched data on home page:", data);
 
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [isPosterOpen, setIsPosterOpen] = useState(true);
+  const [isPosterOpen, setIsPosterOpen] = useState(false);
+
+  // console.log("Poster open state:", isPosterOpen);
+
+  useEffect(() => {
+    if (data){
+      setIsPosterOpen(!data.is_maintenance_mode);
+    }
+  
+  }, [data])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -62,7 +74,7 @@ const home = () => {
       </div>}
 
       {isChatOpen && <Chat onClose={() => setIsChatOpen(false)} />}
-      {isPosterOpen && <Poster />}
+      {!isPosterOpen && <Poster />}
 
     </div>
   )
