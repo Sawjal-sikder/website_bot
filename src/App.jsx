@@ -4,6 +4,7 @@ import { NotificationProvider } from './contexts/NotificationContext';
 import NotificationContainer from './components/ui/NotificationContainer';
 import Dashboard from './pages/home';
 import Service from './pages/Service';
+import Test from './pages/Test';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/support" element={<Service />} />
+            <Route path="/test" element={<Test />} />
           </Routes>
         </div>
       </Router>

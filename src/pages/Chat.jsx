@@ -1,52 +1,57 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Icon from '../assets/image/iconchat.png'
 import botIcon from '../assets/image/cart.png'
 import Send from '../assets/image/send.png'
+import api, { API_BASE_URL } from '../services/auth'
+import { useChatHistory } from '../hooks/chatApi'
+import useThreadID from '../hooks/useThreadID.jsx'
 
 const Chat = ({ onClose }) => {
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([])
   const [started, setStarted] = useState(false)
+  const [isTyping, setIsTyping] = useState(false)
+  const messagesEndRef = useRef(null)
+  const inputRef = useRef(null)
+  const [error, setError] = useState(null)
 
-  const handleStartChat = () => {
-    setStarted(true)
-    setMessages([
-      {
-        id: 1,
-        text: "👋 Hi there! Welcome to KASA by Pluto — your friendly online convenience store. What would you like to order today?",
-        sender: "bot",
-      }
-    ])
-  }
+  const { threadID, isReady } = useThreadID()
 
-  const handleSendMessage = () => {
-    if (message.trim()) {
-      const newMessage = {
-        id: messages.length + 1,
-        text: message,
-        sender: 'user',
-      }
-
-      setMessages([...messages, newMessage])
-      setMessage('')
-
-      // Simulate bot reply
-      setTimeout(() => {
-        const botResponse = {
-          id: messages.length + 2,
-          text: "Thank you for your message! I'm here to help you with your shopping needs.",
-          sender: 'bot',
-        }
-        setMessages(prev => [...prev, botResponse])
-      }, 1000)
+  useEffect(() => {
+    if (isReady) {
+      // console.log("Thread ID:", threadID)
     }
-  }
+  }, [isReady, threadID])
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSendMessage()
+  const treadId = threadID
+  const { chatHistory, isLoading, isError, error: chatError, refetch } = useChatHistory({ treadId })
+
+  // Sync chat history with local messages state
+  useEffect(() => {
+    if (chatHistory?.Full_conversation && chatHistory.Full_conversation.length > 0) {
+      setMessages(chatHistory.Full_conversation)
+      setStarted(true)
     }
-  }
+  }, [chatHistory])
+
+  // Show error from chat history hook
+  useEffect(() => {
+    if (isError && chatError) {
+      setError(chatError.message || 'Failed to load chat history')
+    }
+  }, [isError, chatError])
+
+  // Auto-focus on mount
+  useEffect(() => {
+    inputRef.current?.focus()
+  }, [])
+
+  // Focus input when chat starts
+  useEffect(() => {
+    if (started && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [started])
 
   // Prevent body scroll on mobile when chat is open
   useEffect(() => {
@@ -56,17 +61,82 @@ const Chat = ({ onClose }) => {
     }
   }, [])
 
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  const handleStartChat = () => {
+    setStarted(true)
+    setMessages([
+      {
+        id: 1,
+        message:
+          "👋 Hi there! Welcome to KASA by Pluto — your friendly online convenience store. What would you like to order today?",
+        sender: 'bot',
+      },
+    ])
+    setError(null)
+  }
+
+  const handleSendMessage = async () => {
+    if (!message.trim()) return
+
+    const userMessage = {
+      id: Date.now(),
+      message: message,
+      sender: 'user',
+    }
+
+    setMessages((prev) => [...prev, userMessage])
+    setMessage('')
+    setError(null)
+    setIsTyping(true)
+
+    try {
+      const res = await api.post('/api/chat/', {
+        message: message,
+        thread_id: threadID,
+      })
+
+      const botMessage = {
+        id: Date.now() + 1,
+        message: res.data.reply,
+        sender: 'bot',
+      }
+
+      setMessages((prev) => [...prev, botMessage])
+
+      // Refetch to get updated chat history
+      await refetch()
+    } catch (error) {
+      setError('Failed to send message. Please try again.')
+
+      const errorMessage = {
+        id: Date.now() + 1,
+        message: "Sorry, I'm having trouble responding right now. Please try again.",
+        sender: 'bot',
+      }
+      setMessages((prev) => [...prev, errorMessage])
+    } finally {
+      setIsTyping(false)
+      inputRef.current?.focus() // Keep focus after sending
+    }
+  }
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSendMessage()
+    }
+  }
+
   return (
     <>
       {/* Overlay */}
-      <div 
-        className="fixed inset-0 bg-black bg-opacity-50 z-40 sm:block"
-        onClick={onClose}
-      ></div>
-      
+      <div className="fixed inset-0 bg-black bg-opacity-50 z-40 sm:block" onClick={onClose}></div>
+
       {/* Chat Modal */}
       <div className="fixed bottom-0 right-0 sm:bottom-10 sm:right-10 chat-modal h-full sm:h-[700px] w-full sm:w-96 max-w-full bg-white shadow-2xl z-50 flex flex-col rounded-none sm:rounded-xl safe-area-inset-bottom">
-        
         {/* Header */}
         <div className="bg-[#2F64EF] text-white p-3 sm:p-4 flex items-center justify-between rounded-none sm:rounded-t-xl">
           <div className="flex items-center">
@@ -79,7 +149,7 @@ const Chat = ({ onClose }) => {
               </div>
             </div>
           </div>
-          <button 
+          <button
             onClick={onClose}
             className="text-white hover:text-gray-200 text-3xl sm:text-4xl ml-2 sm:ml-4"
           >
@@ -89,9 +159,15 @@ const Chat = ({ onClose }) => {
 
         {/* Messages Container */}
         <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">
+          {error && (
+            <div className="flex justify-center">
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-sm max-w-xs">
+                {error}
+              </div>
+            </div>
+          )}
 
-          {/* Default welcome section (shown only before chat starts) */}
-          {!started && (
+          {!started && !isLoading && (
             <div className="flex justify-center">
               <div className="p-2 text-center max-w-xs sm:max-w-none">
                 <h2 className="font-bold text-xl sm:text-2xl mb-2">Welcome to Kasa Belle Isle</h2>
@@ -101,41 +177,59 @@ const Chat = ({ onClose }) => {
 
                 <button
                   onClick={handleStartChat}
-                  disabled={started}
-                  className={`px-4 py-2 my-4 sm:my-6 rounded-lg text-sm sm:text-base transition-colors 
-                    ${started ? "bg-gray-400 cursor-not-allowed" : "bg-[#2F64EF] text-white hover:bg-blue-600"}`}
+                  disabled={started || isLoading}
+                  className={`px-4 py-2 my-4 sm:my-6 rounded-lg text-sm sm:text-base transition-colors ${
+                    started || isLoading
+                      ? 'bg-gray-400 cursor-not-allowed'
+                      : 'bg-[#2F64EF] text-white hover:bg-blue-600'
+                  }`}
                 >
-                  {started ? "Chat Started" : "Chat to Order"}
+                  {isLoading ? 'Loading...' : started ? 'Chat Started' : 'Chat to Order'}
                 </button>
               </div>
             </div>
           )}
 
-          {/* Chat messages */}
+          {isLoading && !started && (
+            <div className="flex justify-center items-center h-20">
+              <div className="text-gray-500">Loading chat...</div>
+            </div>
+          )}
+
           {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
+            <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
               {msg.sender === 'bot' && (
-                <img 
-                  src={botIcon} 
-                  alt="Bot" 
-                  className="w-6 h-6 sm:w-8 sm:h-8 rounded-full mr-2 mt-1 flex-shrink-0" 
-                />
+                <img src={botIcon} alt="Bot" className="w-6 h-6 sm:w-8 sm:h-8 rounded-full mr-2 mt-1 flex-shrink-0" />
               )}
 
               <div
                 className={`max-w-[280px] sm:max-w-xs px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base ${
-                  msg.sender === 'user'
-                    ? 'bg-[#2F64EF] text-white'
-                    : 'bg-gray-200 text-gray-800'
+                  msg.sender === 'user' ? 'bg-[#2F64EF] text-white' : 'bg-gray-200 text-gray-800'
                 }`}
               >
-                {msg.text}
+                {msg.message}
               </div>
+
+              {msg.sender === 'user' && (
+                <img src={botIcon} alt="User" className="w-6 h-6 sm:w-8 sm:h-8 rounded-full ml-2 mt-1 flex-shrink-0" />
+              )}
             </div>
           ))}
+
+          {isTyping && (
+            <div className="flex justify-start">
+              <img src={botIcon} alt="Bot" className="w-6 h-6 sm:w-8 sm:h-8 rounded-full mr-2 mt-1 flex-shrink-0" />
+              <div className="bg-gray-200 text-gray-800 max-w-[280px] sm:max-w-xs px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base">
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div ref={messagesEndRef} />
         </div>
 
         {/* Input Area */}
@@ -146,19 +240,17 @@ const Chat = ({ onClose }) => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Type a message"
-              disabled={!started}
-              className="w-full shadow-md rounded-lg px-3 py-3 pr-12 focus:outline-none text-sm sm:text-base min-h-[44px]
-                disabled:bg-gray-200 disabled:cursor-not-allowed"
-              style={{ fontSize: '16px' }} 
+              placeholder={started ? 'Type a message' : 'Start chat to begin messaging'}
+              disabled={!started || isTyping}
+              className="w-full shadow-md rounded-lg px-3 py-3 pr-12 focus:outline-none text-sm sm:text-base min-h-[44px] disabled:bg-gray-200 disabled:cursor-not-allowed"
+              style={{ fontSize: '16px' }}
+              ref={inputRef}
             />
 
             <button
               onClick={handleSendMessage}
-              disabled={!started}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-lg 
-                hover:bg-gray-100 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center
-                disabled:opacity-40 disabled:cursor-not-allowed"
+              disabled={!started || !message.trim() || isTyping}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-lg hover:bg-gray-100 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <img src={Send} alt="Send" className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
