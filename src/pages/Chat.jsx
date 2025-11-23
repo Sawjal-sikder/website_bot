@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Icon from '../assets/image/iconchat.png'
 import botIcon from '../assets/image/cart.png'
+import userIcon from '../assets/image/user_icon.png'
 import Send from '../assets/image/send.png'
 import api, { API_BASE_URL } from '../services/auth'
 import { useChatHistory } from '../hooks/chatApi'
@@ -19,12 +20,69 @@ const Chat = ({ onClose }) => {
 
   useEffect(() => {
     if (isReady) {
-      // console.log("Thread ID:", threadID)
+      console.log("Thread ID:", threadID)
     }
   }, [isReady, threadID])
 
   const treadId = threadID
   const { chatHistory, isLoading, isError, error: chatError, refetch } = useChatHistory({ treadId })
+
+  // Function to render message with links
+  const renderMessage = (text) => {
+    // Regular expression to match URLs
+    const urlRegex = /(https?:\/\/[^\s]+)/g
+    
+    // Split the text by URLs and create elements
+    const parts = text?.split(urlRegex)
+    
+    return parts?.map((part, index) => {
+      if (part?.match(urlRegex)) {
+        return (
+          <a 
+            key={index}
+            href={part} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-blue-600 underline break-all"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {part?.length > 50 ? part?.substring(0, 50) + '...' : part}
+          </a>
+        )
+      }
+      return part
+    })
+  }
+
+  // Function to check if message contains payment link and format it nicely
+  const formatPaymentMessage = (msg) => {
+    const paymentText = "Order confirmed! Thank you for shopping with us. Now please proceed to payment using the following link:"
+    const urlRegex = /(https?:\/\/[^\s]+)/g
+    const urlMatch = msg?.match(urlRegex)
+    
+    if (msg?.includes(paymentText) && urlMatch) {
+      const url = urlMatch[0]
+      return (
+        <div>
+          <p className="mb-2">{paymentText}</p>
+          <a 
+            href={url} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-block bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm font-medium break-all"
+            onClick={(e) => e.stopPropagation()}
+          >
+            💳 Proceed to Payment
+          </a>
+          <p className="mt-2 text-xs text-gray-600">
+            You'll be redirected to Stripe to complete your payment securely.
+          </p>
+        </div>
+      )
+    }
+    
+    return renderMessage(msg)
+  }
 
   // Sync chat history with local messages state
   useEffect(() => {
@@ -41,17 +99,14 @@ const Chat = ({ onClose }) => {
     }
   }, [isError, chatError])
 
-  // Auto-focus on mount
-  useEffect(() => {
-    inputRef.current?.focus()
-  }, [])
-
-  // Focus input when chat starts
-  useEffect(() => {
-    if (started && inputRef.current) {
+useEffect(() => {
+  if (started && inputRef.current && !isTyping) {
+    requestAnimationFrame(() => {
       inputRef.current.focus()
-    }
-  }, [started])
+    })
+  }
+}, [messages, isTyping, started])
+
 
   // Prevent body scroll on mobile when chat is open
   useEffect(() => {
@@ -114,7 +169,7 @@ const Chat = ({ onClose }) => {
 
       const errorMessage = {
         id: Date.now() + 1,
-        message: "Sorry, I'm having trouble responding right now. Please try again.",
+        message: error.response?.data?.error || 'Sorry, something went wrong. Please try again later.',
         sender: 'bot',
       }
       setMessages((prev) => [...prev, errorMessage])
@@ -204,14 +259,16 @@ const Chat = ({ onClose }) => {
 
               <div
                 className={`max-w-[280px] sm:max-w-xs px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base ${
-                  msg.sender === 'user' ? 'bg-[#2F64EF] text-white' : 'bg-gray-200 text-gray-800'
-                }`}
+                  msg.sender === 'user' 
+                    ? 'bg-[#2F64EF] text-white' 
+                    : 'bg-gray-200 text-gray-800'
+                } ${msg.sender === 'bot' ? 'break-words' : ''}`}
               >
-                {msg.message}
+                {msg.sender === 'bot' ? formatPaymentMessage(msg.message) : msg.message}
               </div>
 
               {msg.sender === 'user' && (
-                <img src={botIcon} alt="User" className="w-6 h-6 sm:w-8 sm:h-8 rounded-full ml-2 mt-1 flex-shrink-0" />
+                <img src={userIcon} alt="User" className="w-6 h-6 sm:w-8 sm:h-8 rounded-full ml-1 mt-1 flex-shrink-0" />
               )}
             </div>
           ))}
@@ -245,6 +302,7 @@ const Chat = ({ onClose }) => {
               className="w-full shadow-md rounded-lg px-3 py-3 pr-12 focus:outline-none text-sm sm:text-base min-h-[44px] disabled:bg-gray-200 disabled:cursor-not-allowed"
               style={{ fontSize: '16px' }}
               ref={inputRef}
+              autoFocus
             />
 
             <button
