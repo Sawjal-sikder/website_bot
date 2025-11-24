@@ -20,7 +20,7 @@ const Chat = ({ onClose }) => {
 
   useEffect(() => {
     if (isReady) {
-      console.log("Thread ID:", threadID)
+      // console.log("Thread ID:", threadID)
     }
   }, [isReady, threadID])
 
