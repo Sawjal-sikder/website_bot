@@ -6,6 +6,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 14007,
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    allowedHosts: ['orderwithpluto.com', 'www.orderwithpluto.com', 'https://orderwithpluto.com', 'https://www.orderwithpluto.com'],
+
   }
 })
