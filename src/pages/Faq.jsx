@@ -9,11 +9,10 @@ const faq = ({heading, details=""}) => {
     };
 
     const Datas = [
-    { id: 1, title: 'What is Webflow and why is it the best website builder?', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.' },
-    { id: 2, title: 'What are the key features of Webflow?', description: 'Webflow offers a range of features including a visual editor, responsive design tools, and CMS capabilities.' },
-    { id: 3, title: 'Is Webflow suitable for e-commerce?', description: 'Yes, Webflow has built-in e-commerce features that allow you to create and manage an online store.' },
-    { id: 4, title: 'How does Webflow compare to WordPress?', description: 'Webflow is more design-focused and offers a visual editing experience, while WordPress is more flexible and has a larger plugin ecosystem.' },
-    { id: 5, title: 'Can I export my Webflow site?', description: 'Yes, you can export your Webflow site’s HTML, CSS, and JavaScript, but CMS content will not be included.' },
+    { id: 1, title: 'What is Order with Pluto?', description: 'Order with Pluto is your friendly AI-powered shopping assistant for Kasa Belle Isle. You can chat, order essentials, and get them ready for delivery —simple and fast.' },
+    { id: 2, title: 'How do I place an order?', description: 'Just visit orderwithpluto.com, click Chat to Order, and tell Pluto what you need. It’s like messaging a store assistant who actually replies on time.' },
+    { id: 3, title: 'What can I buy through Pluto?', description: 'essentials, snacks, and daily items from Kasa Belle Isle. If it’s in your basket at the corner shop, it’s probably here too.' },
+    { id: 4, title: 'What if an item is out of stock?', description: 'Pluto will tell you instantly and suggest alternatives—no checkout surprises.' },
     ];
 
   return (
