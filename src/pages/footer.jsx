@@ -57,9 +57,9 @@ const footer = () => {
               <div className="flex flex-col items-center gap-4">
                 <h3 className="text-md font-semibold text-gray-300 mb-2">Follow us on social media:</h3>
                 <div className="flex  gap-4 ">
-                  <img src={Facebook} alt="Facebook" className="w-12 h-12 hover:opacity-75 cursor-pointer transition duration-300" />
-                  <img src={SNP} alt="Twitter" className="w-12 h-12 hover:opacity-75 cursor-pointer transition duration-300 rounded-md bg-white" />
-                  <img src={Youtube} alt="YouTube" className="w-12 h-12 hover:opacity-75 cursor-pointer transition duration-300" />
+                  {/* <img src={Facebook} alt="Facebook" className="w-12 h-12 hover:opacity-75 cursor-pointer transition duration-300" /> */}
+                  <img src={SNP} alt="Twitter" className="w-12 h-12 hover:opacity-75 cursor-pointer transition duration-300 rounded-md bg-white"  onClick={() => window.open("https://snapchat.com/t/JjA2gtUZ", "_blank")}/>
+                  <img src={Youtube} alt="YouTube" className="w-12 h-12 hover:opacity-75 cursor-pointer transition duration-300" onClick={() => window.open("https://www.instagram.com/plutoai.gram?igsh=MTc3NG0wYjAzM3gwNw", "_blank")} />
                   {/* <img src={In} alt="LinkedIn" className="w-12 h-12 hover:opacity-75 cursor-pointer transition duration-300" /> */}
                 </div>
               </div>
