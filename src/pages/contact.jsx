@@ -13,7 +13,7 @@ const contact = ({heading, details=""}) => {
     { id: 2, icon: Icon2, title: 'TELL PLUTO WHAT YOU NEED', description: 'Type or say your order - "2 bottles of milk and a loaf of bread."' },
     { id: 3, icon: Icon3, title: 'CONFIRM YOUR BASKET', description: 'Pluto will show your items - check the list and confirm.' },
     { id: 4, icon: Icon4, title: 'MAKE PAYMENT', description: 'Make Payment Online.' },
-    { id: 5, icon: Icon5, title: 'CHOOSE DELIVERY', description: 'Pick Delivery to your address' },
+    { id: 5, icon: Icon5, title: 'CHOOSE DELIVERY', description: 'We will Deliver to the address Provided' },
     { id: 6, icon: Icon6, title: 'TRACK YOUR ORDER', description: 'Pluto will update you when your order is Preparing, Out for Delivery or Ready.' },
     ];
 

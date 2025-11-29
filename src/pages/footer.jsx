@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Facebook from '../assets/image/icon/f.png'
 import SNP from '../assets/image/icon/snp.png'
 import Youtube from '../assets/image/icon/i.png'
-import In from '../assets/image/icon/in.png'
+import TI from '../assets/image/icon/ti.png'
 import Call from '../assets/image/icon/call.png'
 import address from '../assets/image/icon/add.png'
 
@@ -60,7 +60,7 @@ const footer = () => {
                   {/* <img src={Facebook} alt="Facebook" className="w-12 h-12 hover:opacity-75 cursor-pointer transition duration-300" /> */}
                   <img src={SNP} alt="Twitter" className="w-12 h-12 hover:opacity-75 cursor-pointer transition duration-300 rounded-md bg-white"  onClick={() => window.open("https://snapchat.com/t/JjA2gtUZ", "_blank")}/>
                   <img src={Youtube} alt="YouTube" className="w-12 h-12 hover:opacity-75 cursor-pointer transition duration-300" onClick={() => window.open("https://www.instagram.com/plutoai.gram?igsh=MTc3NG0wYjAzM3gwNw", "_blank")} />
-                  {/* <img src={In} alt="LinkedIn" className="w-12 h-12 hover:opacity-75 cursor-pointer transition duration-300" /> */}
+                  <img src={TI} alt="LinkedIn" className="w-12 h-12 hover:opacity-75 cursor-pointer transition duration-300 bg-white rounded-md p-3" onClick={() => window.open("https://www.tiktok.com/@orderwithpluto?_r=1&_t=ZN-91lBIwULyfi", "_blank")} />
                 </div>
               </div>
             </div>
