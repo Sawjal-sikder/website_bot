@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import Facebook from '../assets/image/icon/f.png'
+import TIME from '../assets/image/icon/TE.jpeg'
 import SNP from '../assets/image/icon/snp.png'
 import Youtube from '../assets/image/icon/i.png'
 import TI from '../assets/image/icon/ti.png'
@@ -37,42 +37,7 @@ const Footer = () => {
                 Support
               </button>
 
-              {/* Contact & Address */}
-              <div className="flex flex-col md:flex-row gap-8 mt-10">
-
-                {/* Phone & Schedule */}
-                <div className="flex gap-4 md:w-1/2">
-                  <img
-                    src={Call}
-                    alt="Call Icon"
-                    className="w-7 h-7 md:w-9 md:h-9"
-                  />
-                  <div>
-                    <p className="text-gray-300 text-sm md:text-base">Monday – Friday: 5:30pm – 1am</p>
-                    <p className="text-gray-300 text-sm md:text-base">Saturday: 4pm – 2am</p>
-                    <p className="text-gray-300 text-sm md:text-base mb-2">Sunday: 5pm – 11pm</p>
-                    <p className="text-xl md:text-2xl font-semibold">07598314916</p>
-                  </div>
-                </div>
-
-                {/* Address */}
-                <div className="flex gap-4 md:w-1/2">
-                  <img
-                    src={address}
-                    alt="Address Icon"
-                    className="w-7 h-7 md:w-9 md:h-9"
-                  />
-                  <div>
-                    <p className="text-gray-300 text-sm md:text-base">Address</p>
-                    <p className="text-xl font-semibold md:text-2xl max-w-xs md:max-w-sm">
-                      278 Belle Isle Rd, Belle Isle, Leeds LS10 3QJ
-                    </p>
-                  </div>
-                </div>
-
-              </div>
             </div>
-
             {/* Right Section (Social Icons) */}
             <div className="flex justify-start md:justify-end pt-3">
               <div className="flex flex-col items-start md:items-center gap-5">
@@ -111,13 +76,72 @@ const Footer = () => {
             </div>
 
           </div>
+              {/* Contact & Address */}
+              {/* <div className="flex flex-col md:flex-row gap-8 mt-10"> */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-10">
+
+                {/* Phone & Schedule */}
+                <div className="flex gap-4">
+                  <img
+                    src={Call}
+                    alt="Call Icon"
+                    className="w-7 h-7 md:w-7 md:h-7"
+                  />
+                  <div>
+                    <p className="text-gray-300 text-sm md:text-base">Contact</p>
+                    <p className="text-xl md:text-2xl font-semibold">07598314916</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">                 
+                  <img
+                    src={TIME}
+                    alt="Address Icon"
+                    className="w-7 h-7 md:w-10 md:h-10 rounded-full"
+                  />
+                 <div>
+                  <h4 className="text-gray-300 text-sm md:text-base font-semibold mb-2">Opening Time</h4>
+                  <ul className="space-y-2">
+                    {/* <li className="flex items-start text-white text-sm md:text-base">
+                      <span className="text-red-500 mr-2">•</span> Monday – Friday: 5:30pm – 1am
+                    </li> */}
+                    <li className="flex items-start text-white text-sm md:text-base">
+                      <span className="text-red-500 mr-2">•</span> Sunday to wednesday: 5:30 PM – 11:00 PM
+                    </li>
+                    <li className="flex items-start text-white text-sm md:text-base">
+                      <span className="text-red-500 mr-2">•</span> Thursday to Saturday: 5:30 PM – 01:00 AM
+                    </li>
+                  </ul>
+                </div>
+
+                </div>
+
+                {/* Address */}
+                <div className="flex gap-4">
+                  <img
+                    src={address}
+                    alt="Address Icon"
+                    className="w-7 h-7 md:w-7 md:h-7"
+                  />
+                  <div>
+                    <p className="text-gray-300 text-sm md:text-base">Address</p>
+                    <p className="text-xl font-semibold md:text-2xl max-w-xs md:max-w-sm">
+                      278 Belle Isle Rd, Belle Isle, Leeds LS10 3QJ
+                    </p>
+                  </div>
+                </div>
+
+
+              </div>
+
         </div>
 
         {/* Footer Bottom */}
         <div className="container mx-auto px-4 border-t border-gray-700 pt-6 mt-10 text-center md:text-left">
           <p className="text-gray-300 text-sm md:text-base">
-            © 2023 Your Company. All rights reserved.
+            © {new Date().getFullYear()} Kasa. All rights reserved.
           </p>
+
         </div>
 
       </footer>

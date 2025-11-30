@@ -1,5 +1,5 @@
 import React from 'react'
-import Iamge from '../assets/image/poster.png'
+import Iamge from '../assets/image/dev.png'
 
 const Poster = () => {
   return (

@@ -9,13 +9,13 @@ const useFetchData = (endpoint) => {
 
   const getData = async () => {
     if (!endpoint) return;
-    
+
     setLoading(true);
     try {
       const response = await api.get(`${endpoint}`, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          // Removed Authorization header completely
         },
       });
       setData(response.data);

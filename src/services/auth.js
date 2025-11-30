@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// export const API_BASE_URL = 'http://10.10.7.76:14009';
-export const API_BASE_URL = 'https://api.orderwithpluto.com';
+export const API_BASE_URL = 'http://10.10.7.76:14009';
+// export const API_BASE_URL = 'https://api.orderwithpluto.com';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -26,7 +26,7 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       localStorage.removeItem('authToken');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+      // Removed automatic redirect to login - no private routes needed
     }
     return Promise.reject(error);
   }

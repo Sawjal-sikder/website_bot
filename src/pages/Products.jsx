@@ -4,7 +4,7 @@ import useFetchData from '../hooks/useFetchData'
 import { API_BASE_URL } from '../services/auth'
 
 const Products = ({heading, details}) => {
-  const { data, loading, error, refetch} = useFetchData('/api/shop/best-seles/')
+  const { data, loading, error, refetch} = useFetchData('api/shop/best-seles/')
 
   const dummyProducts = Array.from({ length: 5 }, (_, index) => ({
     product__id: index + 1,
@@ -12,14 +12,12 @@ const Products = ({heading, details}) => {
     product__name: `Product ${index + 1}`,
   }))
 
-
-  const products = data?.data?.length ? data.data : dummyProducts;
+  const products = data?.length ? data : dummyProducts;
 
 
 
   return (
     <div className="pt-24 bg-gray-50">
-
       {/* Products Grid */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8"> 
         <div className="mb-6 sm:mb-8 py-2 sm:py-4">
@@ -29,26 +27,50 @@ const Products = ({heading, details}) => {
           </div>
           <p className="text-[#939393] text-sm sm:text-base lg:text-lg">{details}</p>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4 lg:gap-6 xl:gap-8">
-          {products.map((product) => (
-            <div key={product.product__id} className="group">
-              <div className="aspect-square bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group-hover:scale-105">
-                <img 
-                  src={
-                        data?.data?.length && product.product__image
-                        ? `${API_BASE_URL}/media/${product.product__image}`
-                                          : product.product__image
-                                      }
-                  alt={`Product ${product.product__id}`}
-                  className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-300 cursor-pointer"
-                />
+
+        {/* Loading State */}
+        {loading && (
+          <div className="text-center py-8">
+            <p className="text-gray-600">Loading products...</p>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <div className="text-center py-8">
+            <p className="text-red-600">Error loading products: {error.message}</p>
+            <button 
+              onClick={refetch}
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
+        {/* Products Grid */}
+        {!loading && !error && (
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4 lg:gap-6 xl:gap-8">
+            {products.map((product) => (
+              <div key={product.product__id} className="group">
+                <div className="aspect-square bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group-hover:scale-105">
+                  <img 
+                    src={
+                          data?.length && product.product__image
+                          ? `${API_BASE_URL}${product.product__image}`
+                                            : product.product__image
+                                        }
+                    alt={`Product ${product.product__id}`}
+                    className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-300 cursor-pointer"
+                  />
+                </div>
+                <div className="mt-1 sm:mt-2">
+                  <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800 text-center">{product.product__name}</h3>
+                </div>
               </div>
-              <div className="mt-1 sm:mt-2">
-                <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800 text-center">{product.product__name}</h3>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Mobile-specific bottom spacing */}
