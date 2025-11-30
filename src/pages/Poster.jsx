@@ -5,7 +5,7 @@ import useFetchWithoutAuth from '../hooks/useFetchWithoutAuth';
 const Poster = () => {
 
   const { data, loading, error } = useFetchWithoutAuth('/api/auth/site/status/');
-  console.log("Poster component fetched data:", data);
+  // // console.log("Poster component fetched data:", data);
 
   // Show loading state
   if (loading) {

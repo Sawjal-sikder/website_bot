@@ -12,7 +12,7 @@ import useFetchData from '../hooks/useFetchData'
 const BestSale = ({heading, details}) => {
 
 const { data, loading, error, refetch} = useFetchData('/api/shop/best-sellers/')
-console.log("Fetched data in BestSale:", data);
+// console.log("Fetched data in BestSale:", data);
 
 const dummyproducts = [
     { product__id: 1, product__image: Image1, product__name: 'Product 1' },
@@ -23,7 +23,7 @@ const dummyproducts = [
 ];
 
  const products = data?.length ? data : dummyproducts;
- console.log("Final products to render in BestSale:", products);
+ // console.log("Final products to render in BestSale:", products);
 
   return (
     <div className="pt-24 bg-gray-50">
