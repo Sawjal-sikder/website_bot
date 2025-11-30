@@ -12,16 +12,18 @@ import useFetchData from '../hooks/useFetchData'
 const BestSale = ({heading, details}) => {
 
 const { data, loading, error, refetch} = useFetchData('/api/shop/best-sellers/')
+console.log("Fetched data in BestSale:", data);
 
 const dummyproducts = [
-    { product__seller__id: 1, product__seller__image: Image1, product__seller__title: 'Saler 1' },
-    { product__seller__id: 2, product__seller__image: Image2, product__seller__title: 'Saler 2' },
-    { product__seller__id: 3, product__seller__image: Image3, product__seller__title: 'Saler 3' },
-    { product__seller__id: 4, product__seller__image: Image4, product__seller__title: 'Saler 4' },
-    { product__seller__id: 5, product__seller__image: Image5, product__seller__title: 'Saler 5' },
+    { product__id: 1, product__image: Image1, product__name: 'Product 1' },
+    { product__id: 2, product__image: Image2, product__name: 'Product 2' },
+    { product__id: 3, product__image: Image3, product__name: 'Product 3' },
+    { product__id: 4, product__image: Image4, product__name: 'Product 4' },
+    { product__id: 5, product__image: Image5, product__name: 'Product 5' },
 ];
 
- const products = data?.data?.length ? data.data : dummyproducts;
+ const products = data?.length ? data : dummyproducts;
+ console.log("Final products to render in BestSale:", products);
 
   return (
     <div className="pt-24 bg-gray-50">
@@ -35,26 +37,50 @@ const dummyproducts = [
           </div>
           <p className="text-[#939393] text-sm sm:text-base lg:text-lg">{details}</p>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4 lg:gap-6 xl:gap-8">
-          {products.map((product) => (
-            <div key={product.product__seller__id} className="group">
-              <div className="aspect-square bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group-hover:scale-105">
-                <img 
-                    src={
-                      data?.data?.length && product.product__seller__image
-                        ? `${API_BASE_URL}/media/${product.product__seller__image}`
-                        : product.product__seller__image
-                    }
-                  alt={`Product ${product.product__seller__id}`}
-                  className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-300 cursor-pointer"
-                />
+
+        {/* Loading State */}
+        {loading && (
+          <div className="text-center py-8">
+            <p className="text-gray-600">Loading products...</p>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <div className="text-center py-8">
+            <p className="text-red-600">Error loading products: {error.message}</p>
+            <button 
+              onClick={refetch}
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
+        {/* Products Grid */}
+        {!loading && !error && (
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4 lg:gap-6 xl:gap-8">
+            {products.map((product) => (
+              <div key={product.product__id} className="group">
+                <div className="aspect-square bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group-hover:scale-105">
+                  <img 
+                      src={
+                        data?.length && product.product__image
+                          ? `${API_BASE_URL}${product.product__image}`
+                          : product.product__image
+                      }
+                    alt={`Product ${product.product__id}`}
+                    className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-300 cursor-pointer"
+                  />
+                </div>
+                <div className="mt-1 sm:mt-2">
+                  <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800 text-center">{product.product__name}</h3>
+                </div>
               </div>
-              <div className="mt-1 sm:mt-2">
-                <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800 text-center">{product.product__seller__title}</h3>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Mobile-specific bottom spacing */}
