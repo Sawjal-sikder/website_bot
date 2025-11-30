@@ -27,31 +27,45 @@ const Chat = ({ onClose }) => {
   const treadId = threadID
   const { chatHistory, isLoading, isError, error: chatError, refetch } = useChatHistory({ treadId })
 
-  // Function to render message with links
+  // Function to render message with links and line breaks
   const renderMessage = (text) => {
     // Regular expression to match URLs
     const urlRegex = /(https?:\/\/[^\s]+)/g
     
-    // Split the text by URLs and create elements
-    const parts = text?.split(urlRegex)
+    // Split text into lines first
+    const lines = text?.split('\n') || []
     
-    return parts?.map((part, index) => {
-      if (part?.match(urlRegex)) {
-        return (
-          <a 
-            key={index}
-            href={part} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-blue-600 underline break-all"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {part?.length > 50 ? part?.substring(0, 50) + '...' : part}
-          </a>
-        )
-      }
-      return part
-    })
+    return (
+      <div className="whitespace-pre-wrap text-gray-700">
+        {lines.map((line, lineIndex) => {
+          // Split each line by URLs
+          const parts = line.split(urlRegex)
+          
+          return (
+            <React.Fragment key={lineIndex}>
+              {parts.map((part, partIndex) => {
+                if (part?.match(urlRegex)) {
+                  return (
+                    <a 
+                      key={partIndex}
+                      href={part} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-blue-600 underline break-all"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {part?.length > 50 ? part?.substring(0, 50) + '...' : part}
+                    </a>
+                  )
+                }
+                return part
+              })}
+              {lineIndex < lines.length - 1 && <br />}
+            </React.Fragment>
+          )
+        })}
+      </div>
+    )
   }
 
   // Function to check if message contains payment link and format it nicely
