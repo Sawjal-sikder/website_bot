@@ -81,18 +81,21 @@ const Products = ({ heading, details }) => {
         {/* Modal */}
         {selectedImage && (
           <div
-            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
             onClick={() => setSelectedImage(null)}
           >
-            <div className="relative max-w-3xl w-full p-4">
+            <div
+              className="relative w-full max-w-3xl"
+              onClick={(e) => e.stopPropagation()} // prevent closing on inner click
+            >
               <img
                 src={`${API_BASE_URL}${selectedImage}`}
                 alt="Large Product"
-                className="w-full h-auto rounded-lg"
+                className="w-full h-auto max-h-[85vh] object-contain rounded-lg shadow-lg transition-transform duration-300 scale-100"
               />
 
               <button
-                className="absolute top-4 right-4 text-white text-2xl font-bold"
+                className="absolute -top-3 -right-3 bg-white text-black w-10 h-10 flex items-center justify-center rounded-full shadow-lg text-xl font-bold hover:bg-gray-200 transition"
                 onClick={() => setSelectedImage(null)}
               >
                 ✕
@@ -101,7 +104,6 @@ const Products = ({ heading, details }) => {
           </div>
         )}
       </div>
-
       <div className="h-16 sm:h-8"></div>
     </div>
   );
