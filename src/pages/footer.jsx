@@ -89,8 +89,8 @@ const Footer = () => {
                   />
                   <div>
                     <p className="text-gray-300 text-sm md:text-base">Contact</p>
-                    <p className="flex items-start text-white text-sm md:text-base py-2"> Phone : 07598314916</p>
-                    <p className="flex items-start text-white text-sm md:text-base">Email : orderwithpluto@gmail.com</p>
+                    <p className="flex items-start text-white text-sm md:text-base py-2">07598314916</p>
+                    <p className="flex items-start text-white text-sm md:text-base">orderwithpluto@gmail.com</p>
                   </div>
                 </div>
 
