@@ -89,7 +89,8 @@ const Footer = () => {
                   />
                   <div>
                     <p className="text-gray-300 text-sm md:text-base">Contact</p>
-                    <p className="text-xl md:text-2xl font-semibold">07598314916</p>
+                    <p className="flex items-start text-white text-sm md:text-base py-2"> Phone : 07598314916</p>
+                    <p className="flex items-start text-white text-sm md:text-base">Email : orderwithpluto@gmail.com</p>
                   </div>
                 </div>
 
@@ -125,7 +126,7 @@ const Footer = () => {
                   />
                   <div>
                     <p className="text-gray-300 text-sm md:text-base">Address</p>
-                    <p className="text-xl font-semibold md:text-2xl max-w-xs md:max-w-sm">
+                    <p className="flex items-start text-white text-sm md:text-base">
                       278 Belle Isle Rd, Belle Isle, Leeds LS10 3QJ
                     </p>
                   </div>
